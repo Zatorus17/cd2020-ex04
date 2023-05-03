@@ -38,7 +38,7 @@ jobs:
       with:
         images: zatorus/ue04  
         
-    - name: Trivy scan for unknown, low and medium in the Image 
+    - name: Trivy scan for unknown, low and medium warnings in the Image 
       uses: aquasecurity/trivy-action@0.10.0       
       with:          
           image-ref: 'zatorus/ue04:master'
@@ -47,6 +47,16 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'UNKNOWN,LOW,MEDIUM'    
+          
+    - name: Trivy scan for high and critical warnings in the Image 
+      uses: aquasecurity/trivy-action@0.10.0       
+      with:          
+          image-ref: 'zatorus/ue04:master'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH,CRITICAL'         
  
     - name: Build and push Docker image
       uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
