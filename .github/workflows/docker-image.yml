@@ -24,18 +24,8 @@ jobs:
     - name: Test
       run: | 
         go build
-        go test -v ./...
+        go test -v ./...     
         
-    - name: Trivy scan for unknown, low and medium in the Image 
-      uses: aquasecurity/trivy-action@0.10.0       
-      with:          
-          image-ref: 'zatorus/my-firstimage:latest'
-          format: 'table'
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'UNKNOWN,LOW,MEDIUM'
-    
     - name: Log in to Docker Hub
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
       with:
@@ -55,3 +45,13 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        
+    - name: Trivy scan for unknown, low and medium in the Image 
+      uses: aquasecurity/trivy-action@0.10.0       
+      with:          
+          image-ref: 'zatorus/my-firstimage:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'UNKNOWN,LOW,MEDIUM'  
